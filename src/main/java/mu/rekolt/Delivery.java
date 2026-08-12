@@ -33,13 +33,24 @@ public class Delivery {
         int week;
         String member_id;
         String member_name;
+        boolean id_valid = true;
         Scanner scanner = new Scanner(System.in);
 
 
         System.out.println("Record a New Delivery");
         System.out.println("---------------------\n");
-        System.out.print("Member Identifier: ");
-        member_id = scanner.nextLine();
+        do {
+            System.out.print("Member Identifier: ");
+            member_id = scanner.nextLine();
+            if (!member_id.matches("M-\\d{4}")) {
+                System.out.println("Please enter a valid member identifier!");
+                id_valid = false;
+            }
+            else {
+                break;
+            }
+        }
+        while (!id_valid);
         System.out.print("Member Name: "); // + member_name from Identifier
         member_name = scanner.nextLine();
         System.out.print("Produce Code: " );
