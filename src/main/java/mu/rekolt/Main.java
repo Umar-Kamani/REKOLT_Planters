@@ -1,11 +1,13 @@
 package mu.rekolt;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         int choice = 0;
+        ArrayList<Delivery> deliveries = new ArrayList<>();
 
 
         System.out.println("Welcome to The REKOLT Planters’ Cooperative Produce Tracker");
@@ -39,7 +41,7 @@ public class Main {
 
         switch (choice) {
             case 1:
-                System.out.println("Choice 1");
+                Delivery.record_delivery();
                 break;
             case 2:
                 System.out.println("Choice 2");
@@ -55,6 +57,5 @@ public class Main {
                 break;
 
         }
-
     }
 }
