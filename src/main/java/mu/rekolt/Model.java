@@ -5,6 +5,16 @@ import java.util.Scanner;
 public class Model {
     Scanner scanner = new Scanner(System.in);
 
+    public class Member {
+
+        String name;
+        String member_id;
+
+        public Member(String name, String member_id) {
+            this.name = name;
+            this.member_id = member_id;
+        }
+    }
 
 
     public void new_member() {
