@@ -29,7 +29,7 @@ public class Main {
             try {
                 System.out.print("Enter Your Choice: ");
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 5) {
+                if (choice < 1 || choice > 6) {
                     System.out.println("Invalid Choice! Please try again.");
                 }
             } catch (InputMismatchException e) {
@@ -37,7 +37,7 @@ public class Main {
                 scanner.nextLine(); //clearing scanner buffer so that it doesn't result in an infinite loop
             }
         }
-        while (choice < 1 || choice > 5);
+        while (choice < 1 || choice > 6);
 
         switch (choice) {
             case 1:
