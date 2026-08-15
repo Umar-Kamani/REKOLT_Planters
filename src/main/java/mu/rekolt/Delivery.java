@@ -25,7 +25,7 @@ public class Delivery {
         this.week = week;
     }
 
-
+//Main record_delivery function - to be used in main
     public static void record_delivery() {
         String produce_code;
         double produce_mass;
@@ -33,7 +33,7 @@ public class Delivery {
         int week;
         String member_id;
         String member_name;
-        boolean id_valid = true;
+        boolean valid = true;
         Scanner scanner = new Scanner(System.in);
 
 
@@ -42,29 +42,92 @@ public class Delivery {
         do {
             System.out.print("Member Identifier: ");
             member_id = scanner.nextLine();
-            if (!member_id.matches("M-\\d{4}")) {
+            if (!member_id.matches("M-\\d{4}")) { /* Validation of Member code format*/
+                valid = false;
                 System.out.println("Please enter a valid member identifier!");
-                id_valid = false;
             }
             else {
                 break;
             }
         }
-        while (!id_valid);
-        System.out.print("Member Name: "); // + member_name from Identifier
-        member_name = scanner.nextLine();
-        System.out.print("Produce Code: " );
-        produce_code = scanner.nextLine();
-        System.out.print("Mass of Produce (KG): ");
-        produce_mass = scanner.nextDouble();
-        System.out.print("Quality score: ");
-        produce_quality_score = scanner.nextInt();
-        System.out.print("Week: ");
-        week = scanner.nextInt();
+        while (!valid);
+
+        do {
+            System.out.print("Member Name: "); // + member_name from Identifier
+            member_name = scanner.nextLine();
+            if (member_name.isEmpty()) { /* Checking if member has inputted a name*/
+                valid = false;
+                System.out.println("Please enter a valid member name!");
+            }
+            else {
+                break;
+            }
+        }
+        while (!valid);
+
+        do {
+            System.out.print("Produce Code: ");
+            produce_code = scanner.nextLine();
+            if (produce_code.contentEquals("MZE") || produce_code.contentEquals("BNS") || /* Validating inputted produce code*/
+                    produce_code.contentEquals("POT") || produce_code.contentEquals("TEA")) {
+                valid = true;
+                break;
+
+            }
+            else  {
+                valid = false;
+                System.out.println("Please enter a valid produce code!");
+                System.out.println("""
+                        Available Produce Codes:
+                        MZE - Maize
+                        BNS - Beans
+                        POT - Potato
+                        TEA - Green Tea Leaf""");
+            }
+        }
+        while (!valid);
+
+        do {
+            System.out.print("Mass of Produce (KG): ");
+            produce_mass = scanner.nextDouble();
+            if (produce_mass <= 0 || produce_mass > 5000) { /* Validation of min & max mass */
+                System.out.println("Please enter a valid produce mass!");
+                valid = false;
+            }
+            else {
+                break;
+            }
+        }
+        while (!valid);
+
+        do {
+            System.out.print("Quality score: ");
+            produce_quality_score = scanner.nextInt();
+            if (produce_quality_score < 0 || produce_quality_score > 100) { /* Validation of min & max quality score */
+                System.out.println("Please enter a quality score between 0 and 100.");
+                valid = false;
+            }
+            else {
+                break;
+            }
+        }
+        while (!valid);
+
+        do {
+            System.out.print("Week: ");
+            week = scanner.nextInt();
+            if (week < 1 || week > 20) { /* Validation of available weeks */
+                System.out.println("Please enter a valid week!");
+                valid = false;
+            }
+            else  {
+                break;
+            }
+        }
+        while (!valid);
 
         Delivery delivery = new Delivery(produce_code, member_id, member_name, produce_mass,
-                produce_quality_score, week);
-        deliveries.add(delivery);
+                produce_quality_score, week); /* Create a delivery object */
+        deliveries.add(delivery); /* Adding the delivery object to the deliveries arraylist<> */
     }
-
 }
