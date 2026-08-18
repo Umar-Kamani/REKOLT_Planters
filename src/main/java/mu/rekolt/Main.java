@@ -3,11 +3,12 @@ package mu.rekolt;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import mu.rekolt.Produce;
 
 public class Main {
     public static void main(String[] args) {
         int choice = 0;
-        ArrayList<Delivery> deliveries = new ArrayList<>();
+        int price;
 
 
         System.out.println("Welcome to The REKOLT Planters’ Cooperative Produce Tracker");
@@ -24,7 +25,6 @@ public class Main {
                 """);
 
         Scanner scanner = new Scanner(System.in);
-
         do {
             try {
                 System.out.print("Enter Your Choice: ");
@@ -39,12 +39,15 @@ public class Main {
         }
         while (choice < 1 || choice > 6);
 
+
         switch (choice) {
             case 1:
                 Delivery.record_delivery();
+
                 break;
             case 2:
-                System.out.println("Choice 2");
+                price = Produce.pricelist.get("MZE").getPricePerKg();
+                System.out.println(price);
                 break;
             case 3:
                 System.out.println("Choice 3");
@@ -57,5 +60,6 @@ public class Main {
                 break;
 
         }
+
     }
 }
