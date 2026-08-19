@@ -7,6 +7,7 @@ public class Delivery {
     static ArrayList<Delivery> deliveries = new ArrayList<>();
 
     //Declaring Variables
+    String delivery_id;
     String produce_code;
     double produce_mass;
     int produce_quality_score;
@@ -15,8 +16,9 @@ public class Delivery {
     String member_name;
 
     //Constructor for delivery class
-    public Delivery (String produce_code, String member_id, String member_name, double produce_mass,
+    public Delivery (String delivery_id, String produce_code, String member_id, String member_name, double produce_mass,
                      int produce_quality_score, int week) {
+        this.delivery_id = delivery_id;
         this.produce_code = produce_code;
         this.member_id = member_id;
         this.member_name = member_name;
@@ -126,7 +128,9 @@ public class Delivery {
         }
         while (!valid);
 
-        Delivery delivery = new Delivery(produce_code, member_id, member_name, produce_mass,
+       String delivery_id = "M-%d".formatted(IdGen.getNextId());
+
+        Delivery delivery = new Delivery(delivery_id,produce_code, member_id, member_name, produce_mass,
                 produce_quality_score, week); /* Create a delivery object */
         deliveries.add(delivery); /* Adding the delivery object to the deliveries arraylist<> */
     }
