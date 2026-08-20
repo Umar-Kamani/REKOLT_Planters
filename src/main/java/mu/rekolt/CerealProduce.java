@@ -7,7 +7,7 @@ public class CerealProduce extends Produce {
         super(/*code,*/ name, pricePerKg);
     }
     @Override
-    public double calculateValue() {
-        return getPricePerKg() * 1.0;
+    public double categoryMultiplier() {
+        return 1.0;
     }
 }

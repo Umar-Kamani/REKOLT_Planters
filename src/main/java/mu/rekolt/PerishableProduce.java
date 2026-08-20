@@ -8,7 +8,7 @@ public class PerishableProduce extends Produce {
     }
 
     @Override
-    public double calculateValue() {
-        return getPricePerKg() * 0.9;
+    public double categoryMultiplier() {
+        return 0.9;
     }
 }

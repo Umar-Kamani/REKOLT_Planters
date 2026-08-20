@@ -7,7 +7,7 @@ public class CashCropProduce extends Produce {
     }
 
     @Override
-    public double calculateValue() {
-        return getPricePerKg() * 1.1;
+    public double categoryMultiplier() {
+        return 1.1;
     }
 }

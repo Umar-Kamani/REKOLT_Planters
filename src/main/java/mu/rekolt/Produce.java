@@ -17,5 +17,7 @@ public abstract class Produce {
         return pricePerKg;
     }
 
-    public abstract double calculateValue();
+    public double categoryMultiplier() {
+        return 0;
+    }
 }
