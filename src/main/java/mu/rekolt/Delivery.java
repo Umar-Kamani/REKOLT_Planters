@@ -9,14 +9,14 @@ public class Delivery {
     //Declaring Variables
     String delivery_id;
     String produce_code;
-    double produce_mass;
+    int produce_mass;
     int produce_quality_score;
     int week;
     String member_id;
     String member_name;
 
     //Constructor for delivery class
-    public Delivery (String delivery_id, String produce_code, String member_id, String member_name, double produce_mass,
+    public Delivery (String delivery_id, String produce_code, String member_id, String member_name, int produce_mass,
                      int produce_quality_score, int week) {
         this.delivery_id = delivery_id;
         this.produce_code = produce_code;
@@ -28,9 +28,10 @@ public class Delivery {
     }
 
 //Main record_delivery function - to be used in main
-    public static void record_delivery() {
+    public static String record_delivery() {
+        String delivery_id = "M-%d".formatted(IdGen.getNextId());
         String produce_code;
-        double produce_mass;
+        int produce_mass;
         int produce_quality_score;
         int week;
         String member_id;
@@ -91,7 +92,7 @@ public class Delivery {
 
         do {
             System.out.print("Mass of Produce (KG): ");
-            produce_mass = scanner.nextDouble();
+            produce_mass = scanner.nextInt();
             if (produce_mass <= 0 || produce_mass > 5000) { /* Validation of min & max mass */
                 System.out.println("Please enter a valid produce mass!");
                 valid = false;
@@ -128,10 +129,10 @@ public class Delivery {
         }
         while (!valid);
 
-       String delivery_id = "M-%d".formatted(IdGen.getNextId());
 
         Delivery delivery = new Delivery(delivery_id,produce_code, member_id, member_name, produce_mass,
                 produce_quality_score, week); /* Create a delivery object */
         deliveries.add(delivery); /* Adding the delivery object to the deliveries arraylist<> */
+        return delivery_id;
     }
 }
