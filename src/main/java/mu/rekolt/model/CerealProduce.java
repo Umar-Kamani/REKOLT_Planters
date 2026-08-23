@@ -1,4 +1,4 @@
-package mu.rekolt;
+package mu.rekolt.model;
 
 public class CerealProduce extends Produce {
 

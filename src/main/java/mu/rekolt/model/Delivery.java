@@ -1,22 +1,52 @@
-package mu.rekolt;
+package mu.rekolt.model;
+
+import mu.rekolt.util.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Delivery {
-    static ArrayList<Delivery> deliveries = new ArrayList<>();
+    public static ArrayList<Delivery> deliveries = new ArrayList<>();
 
     //Declaring Variables
     String delivery_id;
     String produce_code;
-    int produce_mass;
+    double produce_mass;
     int produce_quality_score;
     int week;
     String member_id;
     String member_name;
 
+    public String getDelivery_id() {
+        return delivery_id;
+    }
+
+    public String getProduce_code() {
+        return produce_code;
+    }
+
+    public double getProduce_mass() {
+        return produce_mass;
+    }
+
+    public int getProduce_quality_score() {
+        return produce_quality_score;
+    }
+
+    public int getWeek() {
+        return week;
+    }
+
+    public String getMember_id() {
+        return member_id;
+    }
+
+    public String getMember_name() {
+        return member_name;
+    }
+
     //Constructor for delivery class
-    public Delivery (String delivery_id, String produce_code, String member_id, String member_name, int produce_mass,
+    public Delivery (String delivery_id, String produce_code, String member_id, String member_name, double produce_mass,
                      int produce_quality_score, int week) {
         this.delivery_id = delivery_id;
         this.produce_code = produce_code;
@@ -31,7 +61,7 @@ public class Delivery {
     public static String record_delivery() {
         String delivery_id = "D-%d".formatted(IdGenerator.getNextId());
         String produce_code;
-        int produce_mass;
+        double produce_mass;
         int produce_quality_score;
         int week;
         String member_id;

@@ -1,7 +1,11 @@
-package mu.rekolt;
-import static mu.rekolt.Delivery.deliveries;
-import static mu.rekolt.Payments.Grade.REJECT;
-import java.lang.Math;
+package mu.rekolt.service;
+
+import mu.rekolt.ProduceDatabase;
+import mu.rekolt.model.Delivery;
+import mu.rekolt.model.Member;
+
+import static mu.rekolt.model.Delivery.deliveries;
+import static mu.rekolt.service.Payments.Grade.REJECT;
 
 public class Payments {
     String produce_code;
@@ -51,14 +55,14 @@ public class Payments {
     public static void paymentCalculator(String delivery_id) {
 
         String member_name = "";
-        String member_code = "";
+        String member_id = "";
         int produce_quality_score = 0;
         String produce_code = "";
-        int produce_mass = 0;
+        double produce_mass = 0;
         double grade_multiplier = 0;
         double category_multiplier;
         double commission_rate = 0.05;
-        int transport_levy = 2;
+        double transport_levy = 0.02;
         int produce_price;
 
         double base_value;
@@ -77,14 +81,16 @@ public class Payments {
         * 6. net_payable_value = category_multiplier_value - commission_value - transport_levied_value */
 
         for  (Delivery delivery : deliveries) {
-            if (delivery.delivery_id.equals(delivery_id)) {
-                produce_quality_score = delivery.produce_quality_score;
-                produce_code = delivery.produce_code;
-                produce_mass = delivery.produce_mass;
-                member_code = delivery.member_id;
-                member_name = delivery.member_name;
+            if (delivery.getDelivery_id().equals(delivery_id)) {
+                produce_quality_score = delivery.getProduce_quality_score();
+                produce_code = delivery.getProduce_code();
+                produce_mass = delivery.getProduce_mass();
+                member_id = delivery.getMember_id();
+                member_name = delivery.getMember_name();
             }
         }
+        
+        Member member = new Member(member_id, member_name);
 
         produce_price = ProduceDatabase.priceList.get(produce_code).getPricePerKg();
         category_multiplier = CategorySelector.CategoryMultiplierSelector(produce_code);
@@ -117,14 +123,15 @@ public class Payments {
         net_payable_value = category_multiplier_value - (transport_levied_value + commission_value);
 
         System.out.println("Delivery: " + delivery_id + " Recorded. Grade " + Grade.valueOf(grade.name()));
-        System.out.print("Member Code: " + member_code);
+        System.out.print("Member Code: " + member_id);
         System.out.println(" | Member Name: " + member_name);
-        System.out.println("Base Value: " + produce_mass + " X " +produce_price + " = Rs " + Math.round(base_value));
-        System.out.println("Grade: " + Grade.valueOf(grade.name()) +": X "+grade_multiplier + " = Rs " + Math.round(graded_multiplier_value));
-        System.out.println("Category " + CategorySelector.CategoryTypeSelector(produce_code) + ": X" + category_multiplier + " = Rs " + Math.round(category_multiplier_value));
-        System.out.println("Commission 5% = Rs " + Math.round(commission_value));
-        System.out.println("Transport Levy 2% = Rs " + Math.round(transport_levied_value));
-        System.out.println("Net Payable Value = Rs " + Math.round(net_payable_value));
+        System.out.println();
+        System.out.printf("Base Value: %.1f x %d = Rs %.2f%n", produce_mass, produce_price, base_value);
+        System.out.printf("Grade: %s x %.2f = Rs %.2f%n", grade.name(), grade_multiplier, graded_multiplier_value);
+        System.out.printf("Category %s: x %.2f = Rs %.2f%n", CategorySelector.CategoryTypeSelector(produce_code), category_multiplier, category_multiplier_value);
+        System.out.printf("Commission 5%% = Rs %.2f%n", commission_value);
+        System.out.printf("Transport Levy = Rs %.2f%n", transport_levied_value);
+        System.out.printf("Net Payable Value = Rs %.2f%n", net_payable_value);
     }
 }
 

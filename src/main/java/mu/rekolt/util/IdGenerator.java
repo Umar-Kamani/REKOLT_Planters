@@ -1,4 +1,4 @@
-package mu.rekolt;
+package mu.rekolt.util;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class IdGenerator {

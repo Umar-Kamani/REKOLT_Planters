@@ -1,6 +1,9 @@
-package mu.rekolt;
+package mu.rekolt.service;
 
 
+import mu.rekolt.model.CashCropProduce;
+import mu.rekolt.model.CerealProduce;
+import mu.rekolt.model.PerishableProduce;
 
 public class CategorySelector {
 

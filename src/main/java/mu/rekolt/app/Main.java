@@ -1,9 +1,11 @@
-package mu.rekolt;
+package mu.rekolt.app;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import mu.rekolt.Produce;
+
+import mu.rekolt.model.Delivery;
+import mu.rekolt.service.Payments;
+import mu.rekolt.ProduceDatabase;
 
 public class Main {
     public static void main(String[] args) {
@@ -42,11 +44,12 @@ public class Main {
 
         switch (choice) {
             case 1:
-                Delivery.record_delivery();
-
+                String delivery_id = Delivery.record_delivery();
+                System.out.println();
+                Payments.paymentCalculator(delivery_id);
                 break;
             case 2:
-                price = Produce.pricelist.get("MZE").getPricePerKg();
+                price = ProduceDatabase.priceList.get("MZE").getPricePerKg();
                 System.out.println(price);
                 break;
             case 3:
