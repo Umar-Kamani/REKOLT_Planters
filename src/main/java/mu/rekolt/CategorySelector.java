@@ -4,7 +4,7 @@ package mu.rekolt;
 
 public class CategorySelector {
 
-    public static double CatSelector(String produce_code){
+    public static double CategoryMultiplierSelector(String produce_code){
         double catMultiplier;
 
 
@@ -34,5 +34,28 @@ public class CategorySelector {
         return 0.0;
     }
 
+    public static String CategoryTypeSelector(String produce_code){
+        String catType;
+        switch (produce_code) {
+            case "MZE" -> {
+                catType = "Cereal";
+                return catType;
+            }
+            case "BNS" -> {
+                catType = "Cereal";
+                return catType;
+            }
+            case "TEA" -> {
+                catType = "Cash Crop";
+                return catType;
+            }
+            case "POT" -> {
+                catType = "Perishable";
+                return catType;
+            }
+
+        }
+        return "";
+    }
 
 }
