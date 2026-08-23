@@ -18,4 +18,6 @@ public abstract class Produce {
     }
 
     public abstract double categoryMultiplier();
+
+    public abstract String categoryName();
 }

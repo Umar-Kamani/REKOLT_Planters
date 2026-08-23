@@ -10,4 +10,9 @@ public class CashCropProduce extends Produce {
     public double categoryMultiplier() {
         return 1.1;
     }
+
+    @Override
+    public String categoryName() {
+        return "CashCrop";
+    }
 }

@@ -11,4 +11,9 @@ public class PerishableProduce extends Produce {
     public double categoryMultiplier() {
         return 0.9;
     }
+
+    @Override
+    public String categoryName() {
+        return "Perishable";
+    }
 }

@@ -10,4 +10,9 @@ public class CerealProduce extends Produce {
     public double categoryMultiplier() {
         return 1.0;
     }
+
+    @Override
+    public String categoryName() {
+        return "Cereal";
+    }
 }
