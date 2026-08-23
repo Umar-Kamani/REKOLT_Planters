@@ -1,5 +1,7 @@
 package mu.rekolt;
 import static mu.rekolt.Delivery.deliveries;
+import static mu.rekolt.Payments.Grade.REJECT;
+import java.lang.Math;
 
 public class Payments {
     String produce_code;
@@ -42,16 +44,18 @@ public class Payments {
         } else if (produce_quality_score >= 50 && produce_quality_score < 70) {
             return Grade.C;
         } else {
-            return Grade.REJECT;
+            return REJECT;
         }
     }
 
     public static void paymentCalculator(String delivery_id) {
 
+        String member_name = "";
+        String member_code = "";
         int produce_quality_score = 0;
         String produce_code = "";
         int produce_mass = 0;
-        double grade_multiplier;
+        double grade_multiplier = 0;
         double category_multiplier;
         double commission_rate = 0.05;
         int transport_levy = 2;
@@ -77,21 +81,31 @@ public class Payments {
                 produce_quality_score = delivery.produce_quality_score;
                 produce_code = delivery.produce_code;
                 produce_mass = delivery.produce_mass;
+                member_code = delivery.member_id;
+                member_name = delivery.member_name;
             }
         }
 
         produce_price = ProduceDatabase.priceList.get(produce_code).getPricePerKg();
-        category_multiplier = CategorySelector.CatSelector(produce_code);
-
-
-        base_value = produce_mass * produce_price;
+        category_multiplier = CategorySelector.CategoryMultiplierSelector(produce_code);
 
         //line 107 - 112 fetches the grade multiplier from the enum according to the specific delivery object
         Enum<Grade> grade = gradeClassifier(produce_quality_score);
 //        System.out.println("Grade: " + grade);
         Grade produce_multiplier = Grade.valueOf(grade.name());
+
+        if (grade.equals(REJECT)) {
+            produce_price = 0;
+            transport_levy = 0;
+            commission_rate = 0;
+        }
+
+
         grade_multiplier = produce_multiplier.getMultiplier();
 //        System.out.println("Multiplier: " + grade_multiplier);
+
+        base_value = produce_mass * produce_price;
+
         graded_multiplier_value = base_value * grade_multiplier;
 
         category_multiplier_value = category_multiplier * graded_multiplier_value;
@@ -101,6 +115,16 @@ public class Payments {
         commission_value = commission_rate * category_multiplier_value;
 
         net_payable_value = category_multiplier_value - (transport_levied_value + commission_value);
+
+        System.out.println("Delivery: " + delivery_id + " Recorded. Grade " + Grade.valueOf(grade.name()));
+        System.out.print("Member Code: " + member_code);
+        System.out.println(" | Member Name: " + member_name);
+        System.out.println("Base Value: " + produce_mass + " X " +produce_price + " = Rs " + Math.round(base_value));
+        System.out.println("Grade: " + Grade.valueOf(grade.name()) +": X "+grade_multiplier + " = Rs " + Math.round(graded_multiplier_value));
+        System.out.println("Category " + CategorySelector.CategoryTypeSelector(produce_code) + ": X" + category_multiplier + " = Rs " + Math.round(category_multiplier_value));
+        System.out.println("Commission 5% = Rs " + Math.round(commission_value));
+        System.out.println("Transport Levy 2% = Rs " + Math.round(transport_levied_value));
+        System.out.println("Net Payable Value = Rs " + Math.round(net_payable_value));
     }
 }
 
