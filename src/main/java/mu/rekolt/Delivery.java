@@ -29,7 +29,7 @@ public class Delivery {
 
 //Main record_delivery function - to be used in main
     public static String record_delivery() {
-        String delivery_id = "D-%d".formatted(IdGen.getNextId());
+        String delivery_id = "D-%d".formatted(IdGenerator.getNextId());
         String produce_code;
         int produce_mass;
         int produce_quality_score;

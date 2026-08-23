@@ -1,7 +1,7 @@
 package mu.rekolt;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class IdGen {
+public class IdGenerator {
  // Start the sequence at 1
     private static final AtomicInteger sequence = new AtomicInteger(1);
 
