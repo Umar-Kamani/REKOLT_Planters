@@ -1,6 +1,7 @@
 package mu.rekolt.service;
 
-import mu.rekolt.ProduceDatabase;
+import mu.rekolt.model.Produce;
+import mu.rekolt.model.ProduceDatabase;
 import mu.rekolt.model.Delivery;
 import mu.rekolt.model.Member;
 
@@ -92,8 +93,12 @@ public class Payments {
         
         Member member = new Member(member_id, member_name);
 
-        produce_price = ProduceDatabase.priceList.get(produce_code).getPricePerKg();
-        category_multiplier = CategorySelector.CategoryMultiplierSelector(produce_code);
+        Produce produce = ProduceDatabase.findByCode(produce_code);
+        if (produce == null) {
+            System.out.println("Error: invalid produce code.");
+            return;
+        }
+        produce_price = produce.getPricePerKg();        category_multiplier = CategorySelector.CategoryMultiplierSelector(produce_code);
 
         //line 107 - 112 fetches the grade multiplier from the enum according to the specific delivery object
         Enum<Grade> grade = gradeClassifier(produce_quality_score);
@@ -105,7 +110,6 @@ public class Payments {
             transport_levy = 0;
             commission_rate = 0;
         }
-
 
         grade_multiplier = produce_multiplier.getMultiplier();
 //        System.out.println("Multiplier: " + grade_multiplier);
@@ -132,6 +136,7 @@ public class Payments {
         System.out.printf("Commission 5%% = Rs %.2f%n", commission_value);
         System.out.printf("Transport Levy = Rs %.2f%n", transport_levied_value);
         System.out.printf("Net Payable Value = Rs %.2f%n", net_payable_value);
+
     }
 }
 
