@@ -1,25 +1,6 @@
 package mu.rekolt;
 import static mu.rekolt.Delivery.deliveries;
 
-
-/*
-The payment calculator function is found in the Payments class file will calculate the total payout for each delivery
-we call the calculator function once the delivery function has executed in the from Delivery.java file has been recorded into the arraylist
-we are using an arraylist as we don't need to declare all values in the begining and can dynamically increase and push elements on the array
-When calling the calculator function we will pass the following parameters to it
-delivery id
-produce code
-produce quality
-mass
-
-the produce code will be used to look up an enum, where we will store the produce prices as constants
-
-the produce quality will be passed into another function that will classify the quality of the produce on a
-grade basis (ABC & Reject) the function will return ABC and Reject. if reject then we will skip all calculation and return
-zero values. ABC will look up in an enum to get their multiplier. The multiplier will be stored in a variable
-
- */
-
 public class Payments {
     String produce_code;
     double produce_mass;
@@ -42,7 +23,7 @@ public class Payments {
 
         private final double multiplier;
 
-        private Grade (double multiplier) {
+        Grade (double multiplier) {
             this.multiplier = multiplier;
         }
 
@@ -71,17 +52,16 @@ public class Payments {
         String produce_code = "";
         int produce_mass = 0;
         double grade_multiplier;
-        double category_multiplier = 0.0;
-        double commission_rate = 0.0;
+        double category_multiplier;
+        double commission_rate = 0.05;
         int transport_levy = 2;
         int produce_price;
-        Delivery delivery_obj = null;
 
         double base_value;
         double graded_multiplier_value;
         double category_multiplier_value;
-        double transport_levied_value = 0.0;
-        double commission_value = 0.0;
+        double transport_levied_value;
+        double commission_value;
         double net_payable_value = 0.0;
 
         /* calculation workflow
@@ -97,7 +77,6 @@ public class Payments {
                 produce_quality_score = delivery.produce_quality_score;
                 produce_code = delivery.produce_code;
                 produce_mass = delivery.produce_mass;
-                delivery = delivery_obj;
             }
         }
 
@@ -122,10 +101,6 @@ public class Payments {
         commission_value = commission_rate * category_multiplier_value;
 
         net_payable_value = category_multiplier_value - (transport_levied_value + commission_value);
-
     }
-
-
-
 }
 
