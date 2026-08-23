@@ -29,7 +29,7 @@ public class Delivery {
 
 //Main record_delivery function - to be used in main
     public static String record_delivery() {
-        String delivery_id = "M-%d".formatted(IdGen.getNextId());
+        String delivery_id = "D-%d".formatted(IdGen.getNextId());
         String produce_code;
         int produce_mass;
         int produce_quality_score;
@@ -94,7 +94,7 @@ public class Delivery {
             System.out.print("Mass of Produce (KG): ");
             produce_mass = scanner.nextInt();
             if (produce_mass <= 0 || produce_mass > 5000) { /* Validation of min & max mass */
-                System.out.println("Please enter a valid produce mass!");
+                System.out.println("Please enter a valid produce mass! We can only accept up to 5000KG's");
                 valid = false;
             }
             else {
