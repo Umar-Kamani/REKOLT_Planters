@@ -5,26 +5,28 @@ import java.util.Scanner;
 
 import mu.rekolt.model.Delivery;
 import mu.rekolt.service.Payments;
-import mu.rekolt.ProduceDatabase;
+import mu.rekolt.model.ProduceDatabase;
+import mu.rekolt.service.SeasonReporting;
 
 public class Main {
     public static void main(String[] args) {
         int choice = 0;
         int price;
 
-
+    do {
+        System.out.println();
         System.out.println("Welcome to The REKOLT Planters’ Cooperative Produce Tracker");
         System.out.println("___________________________________________________________ \n");
         System.out.println("Main Menu");
         System.out.println("_________ \n");
         System.out.println("""
-                1. Record a Delivery
-                2. Planter Menu
-                3. Delivery Menu
-                4. Reporting Center
-                5. Generate Season's Report
-                6. Exit
-                """);
+                    1. Record a Delivery
+                    2. Planter Menu
+                    3. Delivery Menu
+                    4. Reporting Center
+                    5. Generate Season's Report
+                    6. Exit
+                    """);
 
         Scanner scanner = new Scanner(System.in);
         do {
@@ -47,10 +49,11 @@ public class Main {
                 String delivery_id = Delivery.record_delivery();
                 System.out.println();
                 Payments.paymentCalculator(delivery_id);
+                Delivery recorded = Delivery.deliveries.getLast();
+                SeasonReporting.updateWeeklyGrid(recorded.getWeek(), recorded.getProduce_code(), recorded.getProduce_mass());
                 break;
             case 2:
-                price = ProduceDatabase.priceList.get("MZE").getPricePerKg();
-                System.out.println(price);
+                SeasonReporting.displayWeeklyGrid();
                 break;
             case 3:
                 System.out.println("Choice 3");
@@ -64,5 +67,7 @@ public class Main {
 
         }
 
+    }
+    while (choice !=6);
     }
 }
