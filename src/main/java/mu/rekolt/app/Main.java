@@ -21,11 +21,9 @@ public class Main {
         System.out.println("_________ \n");
         System.out.println("""
                     1. Record a Delivery
-                    2. Planter Menu
-                    3. Delivery Menu
-                    4. Reporting Center
-                    5. Generate Season's Report
-                    6. Exit
+                    2. Season Figures on Screen
+                    3. Generate Season Report
+                    4. Exit
                     """);
 
         Scanner scanner = new Scanner(System.in);
@@ -33,7 +31,7 @@ public class Main {
             try {
                 System.out.print("Enter Your Choice: ");
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 6) {
+                if (choice < 1 || choice > 4) {
                     System.out.println("Invalid Choice! Please try again.");
                 }
             } catch (InputMismatchException e) {
@@ -41,7 +39,7 @@ public class Main {
                 scanner.nextLine(); //clearing scanner buffer so that it doesn't result in an infinite loop
             }
         }
-        while (choice < 1 || choice > 6);
+        while (choice < 1 || choice > 4);
 
 
         switch (choice) {
@@ -53,7 +51,9 @@ public class Main {
                 SeasonReporting.updateWeeklyGrid(recorded.getWeek(), recorded.getProduce_code(), recorded.getProduce_mass());
                 break;
             case 2:
+                SeasonReporting.displayMemberTotals();
                 SeasonReporting.displayWeeklyGrid();
+                SeasonReporting.displayTopDeliveries(5);
                 break;
             case 3:
                 System.out.println("Choice 3");
@@ -68,6 +68,6 @@ public class Main {
         }
 
     }
-    while (choice !=6);
+    while (choice !=4);
     }
 }
