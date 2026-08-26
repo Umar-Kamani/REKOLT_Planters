@@ -1,12 +1,9 @@
 package mu.rekolt.service;
 
-import mu.rekolt.model.Produce;
-import mu.rekolt.model.ProduceDatabase;
-import mu.rekolt.model.Delivery;
-import mu.rekolt.model.Member;
+import mu.rekolt.model.*;
 
 import static mu.rekolt.model.Delivery.deliveries;
-import static mu.rekolt.service.Payments.Grade.REJECT;
+import static mu.rekolt.model.Grade.REJECT;
 
 public class Payments {
     String produce_code;
@@ -21,23 +18,6 @@ public class Payments {
         this.delivery_id = delivery_id;
     }
 
-    public enum Grade {
-
-        A(1.15),
-        B(1.00),
-        C(0.85),
-        REJECT(0.00);
-
-        private final double multiplier;
-
-        Grade (double multiplier) {
-            this.multiplier = multiplier;
-        }
-
-        public double getMultiplier() {
-            return multiplier;
-        }
-    }
 
     public static Enum<Grade> gradeClassifier(int produce_quality_score) {
         if (produce_quality_score >= 85) {
@@ -63,8 +43,9 @@ public class Payments {
         double grade_multiplier = 0;
         double category_multiplier;
         double commission_rate = 0.05;
-        double transport_levy = 0.02;
+        double transport_levy = 2;
         int produce_price;
+        Delivery matchedDelivery = null;
 
         double base_value;
         double graded_multiplier_value;
@@ -88,6 +69,7 @@ public class Payments {
                 produce_mass = delivery.getProduce_mass();
                 member_id = delivery.getMember_id();
                 member_name = delivery.getMember_name();
+                matchedDelivery = delivery;
             }
         }
         
@@ -98,7 +80,9 @@ public class Payments {
             System.out.println("Error: invalid produce code.");
             return;
         }
-        produce_price = produce.getPricePerKg();        category_multiplier = CategorySelector.CategoryMultiplierSelector(produce_code);
+        produce_price = produce.getPricePerKg();
+
+        category_multiplier = produce.categoryMultiplier();
 
         //line 107 - 112 fetches the grade multiplier from the enum according to the specific delivery object
         Enum<Grade> grade = gradeClassifier(produce_quality_score);
@@ -126,13 +110,17 @@ public class Payments {
 
         net_payable_value = category_multiplier_value - (transport_levied_value + commission_value);
 
+        matchedDelivery.setGrade(grade.name());
+        matchedDelivery.setNetPayableValue(net_payable_value);
+        SeasonReporting.recordPayment(matchedDelivery);
+
         System.out.println("Delivery: " + delivery_id + " Recorded. Grade " + Grade.valueOf(grade.name()));
         System.out.print("Member Code: " + member_id);
         System.out.println(" | Member Name: " + member_name);
         System.out.println();
         System.out.printf("Base Value: %.1f x %d = Rs %.2f%n", produce_mass, produce_price, base_value);
         System.out.printf("Grade: %s x %.2f = Rs %.2f%n", grade.name(), grade_multiplier, graded_multiplier_value);
-        System.out.printf("Category %s: x %.2f = Rs %.2f%n", CategorySelector.CategoryTypeSelector(produce_code), category_multiplier, category_multiplier_value);
+        System.out.printf("Category %s: x %.2f = Rs %.2f%n", produce.categoryName(), category_multiplier, category_multiplier_value);
         System.out.printf("Commission 5%% = Rs %.2f%n", commission_value);
         System.out.printf("Transport Levy = Rs %.2f%n", transport_levied_value);
         System.out.printf("Net Payable Value = Rs %.2f%n", net_payable_value);
