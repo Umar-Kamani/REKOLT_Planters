@@ -5,7 +5,7 @@ import mu.rekolt.util.IdGenerator;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Delivery {
+public class Delivery implements Comparable<Delivery> {
     public static ArrayList<Delivery> deliveries = new ArrayList<>();
 
     //Declaring Variables
@@ -16,6 +16,8 @@ public class Delivery {
     int week;
     String member_id;
     String member_name;
+    private String grade;
+    private double netPayableValue;
 
     public String getDelivery_id() {
         return delivery_id;
@@ -45,6 +47,22 @@ public class Delivery {
         return member_name;
     }
 
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public double getNetPayableValue() {
+        return netPayableValue;
+    }
+
+    public void setNetPayableValue(double netPayableValue) {
+        this.netPayableValue = netPayableValue;
+    }
+
     //Constructor for delivery class
     public Delivery (String delivery_id, String produce_code, String member_id, String member_name, double produce_mass,
                      int produce_quality_score, int week) {
@@ -55,6 +73,12 @@ public class Delivery {
         this.produce_mass = produce_mass;
         this.produce_quality_score = produce_quality_score;
         this.week = week;
+    }
+
+    @Override
+    public int compareTo(Delivery other) {
+        // Descending order: highest net payable value first.
+        return Double.compare(other.netPayableValue, this.netPayableValue);
     }
 
 //Main record_delivery function - to be used in main
@@ -80,6 +104,7 @@ public class Delivery {
                 System.out.println("Please enter a valid member identifier!");
             }
             else {
+                valid = true;
                 break;
             }
         }
@@ -90,9 +115,10 @@ public class Delivery {
             member_name = scanner.nextLine();
             if (member_name.isEmpty()) { /* Checking if member has inputted a name*/
                 valid = false;
-                System.out.println("Please enter a valid member name!");
+                System.out.println("Please enter a valid member name! The format is M-9999");
             }
             else {
+                valid = true;
                 break;
             }
         }
@@ -122,12 +148,13 @@ public class Delivery {
 
         do {
             System.out.print("Mass of Produce (KG): ");
-            produce_mass = scanner.nextInt();
+            produce_mass = scanner.nextDouble();
             if (produce_mass <= 0 || produce_mass > 5000) { /* Validation of min & max mass */
                 System.out.println("Please enter a valid produce mass! We can only accept up to 5000KG's");
                 valid = false;
             }
             else {
+                valid = true;
                 break;
             }
         }
@@ -141,6 +168,7 @@ public class Delivery {
                 valid = false;
             }
             else {
+                valid = true;
                 break;
             }
         }
@@ -154,6 +182,7 @@ public class Delivery {
                 valid = false;
             }
             else  {
+                valid = true;
                 break;
             }
         }
