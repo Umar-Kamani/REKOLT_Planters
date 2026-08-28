@@ -112,7 +112,10 @@ public class Payments {
 
         matchedDelivery.setGrade(grade.name());
         matchedDelivery.setNetPayableValue(net_payable_value);
+        matchedDelivery.setCommissionValue(commission_value);
+        matchedDelivery.setTransportLevyValue(transport_levied_value);
         SeasonReporting.recordPayment(matchedDelivery);
+
 
         System.out.println("Delivery: " + delivery_id + " Recorded. Grade " + Grade.valueOf(grade.name()));
         System.out.print("Member Code: " + member_id);
@@ -124,7 +127,7 @@ public class Payments {
         System.out.printf("Commission 5%% = Rs %.2f%n", commission_value);
         System.out.printf("Transport Levy = Rs %.2f%n", transport_levied_value);
         System.out.printf("Net Payable Value = Rs %.2f%n", net_payable_value);
-
+        System.out.println("\n\n");
     }
 }
 

@@ -18,6 +18,8 @@ public class Delivery implements Comparable<Delivery> {
     String member_name;
     private String grade;
     private double netPayableValue;
+    private double commissionValue;
+    private double transportLevyValue;
 
     public String getDelivery_id() {
         return delivery_id;
@@ -61,6 +63,22 @@ public class Delivery implements Comparable<Delivery> {
 
     public void setNetPayableValue(double netPayableValue) {
         this.netPayableValue = netPayableValue;
+    }
+
+    public double getCommissionValue() {
+        return commissionValue;
+    }
+
+    public void setCommissionValue(double commissionValue) {
+        this.commissionValue = commissionValue;
+    }
+
+    public double getTransportLevyValue() {
+        return transportLevyValue;
+    }
+
+    public void setTransportLevyValue(double transportLevyValue) {
+        this.transportLevyValue = transportLevyValue;
     }
 
     //Constructor for delivery class
